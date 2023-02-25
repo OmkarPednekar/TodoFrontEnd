@@ -1,0 +1,36 @@
+.login-form {
+  background-color: rgb(209, 209, 209);
+  padding: 3vw;
+  margin: 7vw 20vw;
+  align-self: center;
+}
+
+.login-form input {
+  width: 90%;
+  font-size: 18px;
+  padding: 10px;
+}
+
+.login-form label {
+  font-family: "Poppins";
+  font-size: 30px;
+}
+
+.login-form button {
+  font-size: 20px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  margin-right: 2vw;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  padding: 1vw 1vw;
+  align-self: center;
+}
+.login-form button:hover {
+  background-color: black;
+  color: white;
+}
+.errortext {
+  color: red;
+}
