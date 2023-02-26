@@ -3,11 +3,20 @@ import "./login.css";
 import axios from "axios";
 export default function RegisterPage() {
   const SubmitClicked = async (values) => {
-    console.log(values);
+    const user = {
+      email: values.email,
+      password: values.password,
+    };
     await axios
-      .post("http://localhost:9000/register", { body: values })
+      .post("http://localhost:9000/register", user)
       .then((res) => {
-        console.log(res);
+        if (res.data === "USER EXISTS ALREADY") {
+          alert(res.data);
+          window.location = "/login";
+        } else {
+          alert(res.data);
+          window.location = "/";
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -52,6 +61,7 @@ export default function RegisterPage() {
             <input
               type="email"
               name="email"
+              required
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.email}
@@ -64,6 +74,7 @@ export default function RegisterPage() {
             <label>PASSWORD</label>
             <br />
             <input
+              required
               type="password"
               name="password"
               onChange={handleChange}
@@ -79,6 +90,7 @@ export default function RegisterPage() {
             <br />
             <input
               type="password"
+              required
               name="confirmpassword"
               onChange={handleChange}
               onBlur={handleBlur}

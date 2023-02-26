@@ -3,11 +3,17 @@ import "./login.css";
 import axios from "axios";
 export default function LoginPage() {
   const SubmitClicked = async (values) => {
-    console.log(values);
+    // console.log(values);
     await axios
-      .post("http://localhost:9000/login", { body: values })
+      .post("http://localhost:9000/login", values)
       .then((res) => {
-        console.log(res);
+        if (res.data === "OK") {
+          alert("LOGIN SUCCESSFULL");
+          window.location = `/dashboard/${values.email}`;
+        } else {
+          alert("LOGIN FAILED");
+          window.location = "/login";
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -50,23 +56,29 @@ export default function LoginPage() {
               type="email"
               name="email"
               onChange={handleChange}
+              required
               onBlur={handleBlur}
               value={values.email}
             />
             <br />
-            {errors.email && touched.email && errors.email}
+            <p className="errortext">
+              {errors.email && touched.email && errors.email}
+            </p>
             <br />
             <label>PASSWORD</label>
             <br />
             <input
               type="password"
+              required
               name="password"
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.password}
             />
             <br></br>
-            {errors.password && touched.password && errors.password}
+            <p className="errortext">
+              {errors.password && touched.password && errors.password}
+            </p>
             <br />
             <button type="submit" disabled={isSubmitting}>
               Submit
