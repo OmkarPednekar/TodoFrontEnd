@@ -1,6 +1,7 @@
 import { Formik } from "formik";
 import "./login.css";
 import axios from "axios";
+import { baseUrl } from "../api";
 export default function RegisterPage() {
   const SubmitClicked = async (values) => {
     const user = {
@@ -8,7 +9,7 @@ export default function RegisterPage() {
       password: values.password,
     };
     await axios
-      .post("http://localhost:9000/register", user)
+      .post(`${baseUrl}/register`, user)
       .then((res) => {
         if (res.data === "USER EXISTS ALREADY") {
           alert(res.data);

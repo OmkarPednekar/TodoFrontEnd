@@ -1,0 +1,88 @@
+.todo-div {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-around;
+}
+
+.todo-div div {
+  margin: 0 1vw;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputtodo-div form {
+  /* align-items: center; */
+  display: flex;
+  flex-direction: row;
+}
+
+.inputtodo-div input {
+  font-size: 20px;
+  font-family: "Poppins";
+  font-weight: 500;
+}
+.inputtodo-div button {
+  margin: 0 1vw;
+  font-size: 20px;
+  font-family: "Poppins";
+  width: 45px;
+  background-color: transparent;
+  border-radius: 15%;
+  border: 1px solid blueviolet;
+  cursor: pointer;
+}
+.inputtodo-div button:hover {
+  background-color: blueviolet;
+  color: white;
+}
+.w-6 {
+  width: 1vw;
+}
+.todolist {
+  margin-top: 2vw !important;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row !important;
+  justify-content: center;
+}
+.datatodo {
+  background-color: transparent;
+  width: 80%;
+  padding: 10px;
+  font-size: 17px;
+  font-family: "Poppins";
+  font-weight: 600;
+  border-radius: 30px;
+  border: 1px blueviolet dashed;
+}
+.datatodo:hover {
+  background-color: blueviolet;
+  color: white;
+
+  cursor: pointer;
+}
+.tododiv {
+  width: 100%;
+  align-items: center;
+  align-content: center;
+}
+.delete {
+  background-color: transparent;
+  width: 20%;
+  margin-left: 1vw;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 17px;
+  font-family: "Poppins";
+  font-weight: 600;
+  border-radius: 30px;
+  border: 1px red dashed;
+  color: red;
+}
+.delete:hover {
+  background-color: red;
+  color: white;
+}

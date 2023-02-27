@@ -1,11 +1,12 @@
 import { Formik } from "formik";
 import "./login.css";
 import axios from "axios";
+import { baseUrl } from "../api";
 export default function LoginPage() {
   const SubmitClicked = async (values) => {
     // console.log(values);
     await axios
-      .post("http://localhost:9000/login", values)
+      .post(`${baseUrl}/login`, values)
       .then((res) => {
         if (res.data === "OK") {
           alert("LOGIN SUCCESSFULL");
