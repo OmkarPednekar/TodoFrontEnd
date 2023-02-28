@@ -2,11 +2,13 @@
   display: flex;
   flex-direction: row;
 
-  justify-content: space-around;
+  justify-content: space-between;
+  /* justify-content: space-around; */
 }
 
 .todo-div div {
   margin: 0 1vw;
+  width: 100%;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -43,14 +45,14 @@
 .todolist {
   margin-top: 2vw !important;
   position: relative;
-  width: 100%;
+  width: 50%;
   display: flex;
   flex-direction: row !important;
   justify-content: center;
 }
 .datatodo {
   background-color: transparent;
-  width: 80%;
+  width: 50%;
   padding: 10px;
   font-size: 17px;
   font-family: "Poppins";
@@ -82,7 +84,48 @@
   border: 1px red dashed;
   color: red;
 }
+.add {
+  background-color: transparent;
+  width: 20%;
+  margin-left: 1vw;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 17px;
+  font-family: "Poppins";
+  font-weight: 600;
+  border-radius: 30px;
+  border: 1px green dashed;
+  color: green;
+}
 .delete:hover {
   background-color: red;
+  color: white;
+}
+.add:hover {
+  background-color: green;
+  color: white;
+}
+.delete-todo {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  justify-content: space-around;
+}
+.deletedtask {
+  background-color: transparent;
+  width: 50%;
+  padding: 10px;
+  font-size: 17px;
+  font-family: "Poppins";
+  font-weight: 600;
+  border-radius: 30px;
+  border: 1px red dashed;
+  cursor: not-allowed;
+
+  text-decoration: line-through !important;
+}
+
+.deletedtask:hover {
+  background-color: rgb(248, 121, 121);
   color: white;
 }

@@ -1,14 +1,15 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { baseUrl } from "../api";
 import axios from "axios";
 import "./dashboard.css";
-import CreateTodo from "./CreateTodo";
+
 import { Formik } from "formik";
 export default function DashBoard() {
   let { email } = useParams();
   const [todo, setTodo] = useState([]);
-  const [newtodo, setNewTodo] = useState([]);
+  const [Numberoftodo, setNumberofTodo] = useState(0);
+  const [donearr, setDoneArr] = useState([]);
   let todoarr = [];
   const SubmitClicked = async (values) => {
     todoarr = [...todo];
@@ -29,11 +30,20 @@ export default function DashBoard() {
 
   useEffect(() => {
     async function getData() {
+      let arr = [];
+      let donearr = [];
       await axios
         .get(`${baseUrl}/gettodo`, { params: { email: email } })
         .then(async (res) => {
+          setNumberofTodo(res.data.length);
           if (res.data.length !== 0) {
-            await setTodo(res.data);
+            res.data.forEach((element) => {
+              if (element.status === "Pending") {
+                arr.push(element);
+              } else donearr.push(element);
+            });
+            setTodo(arr);
+            setDoneArr(donearr);
           }
         })
         .catch((err) => {
@@ -42,14 +52,49 @@ export default function DashBoard() {
     }
     getData();
   }, []);
-  return (
-    <div className="container">
-      {todo.length === 0 ? <p>NO DATA</p> : <p></p>}
 
-      <div className="todo-div">
+  const handleDelete = async (data) => {
+    let arr = [];
+    let donearr = [];
+    await axios
+      .post(`${baseUrl}/deletenode`, data)
+      .then(async (res) => {
+        setNumberofTodo(res.data.length);
+        res.data.forEach((element) => {
+          console.log(element);
+          if (element.status === "Pending") {
+            arr.push(element);
+          } else donearr.push(element);
+        });
+        setTodo(arr);
+        setDoneArr(donearr);
+        console.log(donearr, "done");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  return (
+    <div className="">
+      <nav className="navbar">
+        <div>
+          <p>TODOLIST</p>
+        </div>
+        <div className="buttons-div">
+          <Link to="/">
+            <button className="">LOGOUT</button>
+          </Link>
+        </div>
+      </nav>
+      <div className="container">
+        <h1>{Numberoftodo}</h1>
+      </div>
+
+      {/* {todo.length === 0 ? <p>NO DATA</p> : <p></p>} */}
+
+      <div className="todo-div container">
         <div className="create-todo">
           <h1>CREATE-TODO's</h1>
-          {console.log(todo)}
           <div>
             <div className="inputtodo-div">
               <div>
@@ -89,13 +134,23 @@ export default function DashBoard() {
             </div>
             <div className="tododiv">
               {todo.length <= 0 ? (
-                <h1>NO DATA</h1>
+                <h1>ADD TASKS </h1>
               ) : (
                 todo.map((data, index) => {
                   return (
                     <div className="todolist" key={index}>
                       <button className="datatodo">{data.data}</button>
-                      <button className="delete">X</button>
+                      <button
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Mark Done"
+                        className="delete"
+                        onClick={() => {
+                          handleDelete(data);
+                        }}
+                      >
+                        X
+                      </button>
                     </div>
                   );
                 })
@@ -103,8 +158,34 @@ export default function DashBoard() {
             </div>
           </div>
         </div>
-        <div className="delete-todo">
-          <h1>DELETE</h1>
+        <div className="todo-div-del container  ">
+          <h1>COMPLETED TASKS</h1>
+          <div>
+            <div className="tododiv">
+              {donearr.length <= 0 ? (
+                <h1>NO TASKS COMPLETED</h1>
+              ) : (
+                donearr.map((data, index) => {
+                  return (
+                    <div className="todolist" key={index}>
+                      <button className="deletedtask">{data.data}</button>
+                      <button
+                        className="add"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="ADD BACK"
+                        onClick={() => {
+                          handleDelete(data);
+                        }}
+                      >
+                        +
+                      </button>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
