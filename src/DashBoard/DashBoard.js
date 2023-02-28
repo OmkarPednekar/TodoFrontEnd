@@ -56,12 +56,38 @@ export default function DashBoard() {
   const handleDelete = async (data) => {
     let arr = [];
     let donearr = [];
+    const req = { data: data, action: "done" };
     await axios
-      .post(`${baseUrl}/deletenode`, data)
+      .post(`${baseUrl}/deletenode`, req)
       .then(async (res) => {
         setNumberofTodo(res.data.length);
         res.data.forEach((element) => {
-          console.log(element);
+          // console.log(element);
+          if (element.status === "Pending") {
+            arr.push(element);
+          } else donearr.push(element);
+        });
+        setTodo(arr);
+        setDoneArr(donearr);
+        console.log(donearr, "done");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleDeletePermanent = async (data) => {
+    let arr = [];
+    let donearr = [];
+    const req = { data: data, action: "delete" };
+    await axios
+      .post(`${baseUrl}/deletenode`, req)
+      .then(async (res) => {
+        setNumberofTodo(res.data.length);
+        res.data.forEach((element) => {
+          // console.log(element);
+          const v = new Date(element.date);
+          console.log(v.getDay());
           if (element.status === "Pending") {
             arr.push(element);
           } else donearr.push(element);
@@ -149,7 +175,7 @@ export default function DashBoard() {
                           handleDelete(data);
                         }}
                       >
-                        X
+                        Mark Done
                       </button>
                     </div>
                   );
@@ -178,7 +204,18 @@ export default function DashBoard() {
                           handleDelete(data);
                         }}
                       >
-                        +
+                        ADD BACK
+                      </button>
+                      <button
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="DELETE"
+                        className="delete"
+                        onClick={() => {
+                          handleDeletePermanent(data);
+                        }}
+                      >
+                        Delete
                       </button>
                     </div>
                   );

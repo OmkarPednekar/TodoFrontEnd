@@ -121,11 +121,11 @@
   border-radius: 30px;
   border: 1px red dashed;
   cursor: not-allowed;
-
+  background-color: rgb(248, 121, 121);
   text-decoration: line-through !important;
 }
 
 .deletedtask:hover {
   background-color: rgb(248, 121, 121);
-  color: white;
+  /* color: white; */
 }
