@@ -3,13 +3,33 @@ import { useEffect, useState } from "react";
 import { baseUrl } from "../api";
 import axios from "axios";
 import "./dashboard.css";
+import {
+  Bar,
+  ResponsiveContainer,
+  BarChart,
+  XAxis,
+  YAxis,
+  Legend,
+  Tooltip,
+} from "recharts";
 
 import { Formik } from "formik";
 export default function DashBoard() {
   let { email } = useParams();
   const [todo, setTodo] = useState([]);
+  const [totalTaks, setTotalTask] = useState([]);
   const [Numberoftodo, setNumberofTodo] = useState(0);
   const [donearr, setDoneArr] = useState([]);
+  const [data, setData] = useState([
+    {
+      data: donearr.length,
+      name: "DONE",
+    },
+    {
+      data: todo.length,
+      name: "Pending",
+    },
+  ]);
   let todoarr = [];
   const SubmitClicked = async (values) => {
     todoarr = [...todo];
@@ -26,6 +46,16 @@ export default function DashBoard() {
 
     todoarr.push(datatodo);
     setTodo(todoarr);
+    setData([
+      {
+        data: donearr.length,
+        name: "DONE",
+      },
+      {
+        data: todoarr.length,
+        name: "Pending",
+      },
+    ]);
   };
 
   useEffect(() => {
@@ -35,6 +65,7 @@ export default function DashBoard() {
       await axios
         .get(`${baseUrl}/gettodo`, { params: { email: email } })
         .then(async (res) => {
+          setTotalTask(res.data);
           setNumberofTodo(res.data.length);
           if (res.data.length !== 0) {
             res.data.forEach((element) => {
@@ -44,6 +75,16 @@ export default function DashBoard() {
             });
             setTodo(arr);
             setDoneArr(donearr);
+            setData([
+              {
+                data: donearr.length,
+                name: "DONE",
+              },
+              {
+                data: arr.length,
+                name: "Pending",
+              },
+            ]);
           }
         })
         .catch((err) => {
@@ -60,6 +101,7 @@ export default function DashBoard() {
     await axios
       .post(`${baseUrl}/deletenode`, req)
       .then(async (res) => {
+        setTotalTask(res.data);
         setNumberofTodo(res.data.length);
         res.data.forEach((element) => {
           // console.log(element);
@@ -69,7 +111,16 @@ export default function DashBoard() {
         });
         setTodo(arr);
         setDoneArr(donearr);
-        console.log(donearr, "done");
+        setData([
+          {
+            data: donearr.length,
+            name: "DONE",
+          },
+          {
+            data: arr.length,
+            name: "Pending",
+          },
+        ]);
       })
       .catch((err) => {
         console.log(err);
@@ -84,6 +135,7 @@ export default function DashBoard() {
       .post(`${baseUrl}/deletenode`, req)
       .then(async (res) => {
         setNumberofTodo(res.data.length);
+        setTotalTask(res.data);
         res.data.forEach((element) => {
           // console.log(element);
           const v = new Date(element.date);
@@ -94,14 +146,23 @@ export default function DashBoard() {
         });
         setTodo(arr);
         setDoneArr(donearr);
-        console.log(donearr, "done");
+        setData([
+          {
+            data: donearr.length,
+            name: "DONE",
+          },
+          {
+            data: arr.length,
+            name: "Pending",
+          },
+        ]);
       })
       .catch((err) => {
         console.log(err);
       });
   };
   return (
-    <div className="">
+    <div className="main">
       <nav className="navbar">
         <div>
           <p>TODOLIST</p>
@@ -113,7 +174,31 @@ export default function DashBoard() {
         </div>
       </nav>
       <div className="container">
-        <h1>{Numberoftodo}</h1>
+        <h1>TOTAL NUMBER OF TASKS: {Numberoftodo}</h1>
+
+        <div className="chart-container">
+          <h2 style={{ textAlign: "center" }}>BAR Chart</h2>
+
+          <ResponsiveContainer className="chardiv">
+            <BarChart
+              width={500}
+              height={300}
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="data" fill="#8884d8" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* {todo.length === 0 ? <p>NO DATA</p> : <p></p>} */}

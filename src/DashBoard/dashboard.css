@@ -129,3 +129,10 @@
   background-color: rgb(248, 121, 121);
   /* color: white; */
 }
+.chardiv {
+  height: 300px !important;
+  width: 30vw !important;
+}
+.main {
+  margin-bottom: 3vw;
+}
