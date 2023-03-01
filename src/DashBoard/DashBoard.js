@@ -186,6 +186,7 @@ export default function DashBoard() {
         </div>
         <div className="todo-div-del container  ">
           <h1>COMPLETED TASKS</h1>
+          <p></p>
           <div>
             <div className="tododiv">
               {donearr.length <= 0 ? (
