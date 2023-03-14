@@ -17,7 +17,7 @@ import { Formik } from "formik";
 export default function DashBoard() {
   let { email } = useParams();
   const [todo, setTodo] = useState([]);
-  const [totalTaks, setTotalTask] = useState([]);
+  // const [totalTaks, setTotalTask] = useState([]);
   const [Numberoftodo, setNumberofTodo] = useState(0);
   const [donearr, setDoneArr] = useState([]);
   const [data, setData] = useState([
@@ -65,7 +65,7 @@ export default function DashBoard() {
       await axios
         .get(`${baseUrl}/gettodo`, { params: { email: email } })
         .then(async (res) => {
-          setTotalTask(res.data);
+          // setTotalTask(res.data);
           setNumberofTodo(res.data.length);
           if (res.data.length !== 0) {
             res.data.forEach((element) => {
@@ -92,7 +92,7 @@ export default function DashBoard() {
         });
     }
     getData();
-  }, []);
+  });
 
   const handleDelete = async (data) => {
     let arr = [];
@@ -101,7 +101,7 @@ export default function DashBoard() {
     await axios
       .post(`${baseUrl}/deletenode`, req)
       .then(async (res) => {
-        setTotalTask(res.data);
+        // setTotalTask(res.data);
         setNumberofTodo(res.data.length);
         res.data.forEach((element) => {
           // console.log(element);
@@ -135,7 +135,7 @@ export default function DashBoard() {
       .post(`${baseUrl}/deletenode`, req)
       .then(async (res) => {
         setNumberofTodo(res.data.length);
-        setTotalTask(res.data);
+        // setTotalTask(res.data);
         res.data.forEach((element) => {
           // console.log(element);
           const v = new Date(element.date);
@@ -177,7 +177,7 @@ export default function DashBoard() {
         <h1>TOTAL NUMBER OF TASKS: {Numberoftodo}</h1>
 
         <div className="chart-container">
-          <h2 style={{ textAlign: "center" }}>BAR Chart</h2>
+          <h2 style={{ textAlign: "center" }}>BAR CHART</h2>
 
           <ResponsiveContainer className="chardiv">
             <BarChart
